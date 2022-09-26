@@ -1,0 +1,15 @@
+{
+  "cookies": [
+    {
+      "sameSite": "Lax",
+      "name": "session-username",
+      "value": "standard_user",
+      "domain": "www.saucedemo.com",
+      "path": "/",
+      "expires": 1645209753,
+      "httpOnly": false,
+      "secure": false
+    }
+  ],
+  "origins": []
+}
