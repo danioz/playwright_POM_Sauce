@@ -1,35 +1,47 @@
-import { Locator, Page } from '@playwright/test'
+import {Locator, Page} from '@playwright/test'
 
 export class LoginPage {
     readonly page: Page;
-    readonly getLogin: Locator;
-    readonly getPassword: Locator;
+    readonly getLoginInput: Locator;
+    readonly getPasswordInput: Locator;
     readonly getLoginBtn: Locator;
+    readonly getErrorMsg: Locator;
+    readonly getErrorClose: Locator;
 
     constructor(page: Page) {
         this.page = page;
-        this.getLogin = page.locator('#user-name')
-        this.getPassword = page.locator('#password')
-        this.getLoginBtn = page.locator('#login-button')
+        this.getLoginInput = page.locator("#user-name");
+        this.getPasswordInput = page.locator("#password");
+        this.getLoginBtn = page.locator("#login-button");
+        this.getErrorMsg = page.locator("[data-test='error']")
+        this.getErrorClose = page.locator("button.error-button");
     }
 
     async goTo() {
-        await this.page.goto('https://www.saucedemo.com/')
+        await this.page.goto('https://www.saucedemo.com/');
     }
 
     async inputLogin(login: string) {
-        await this.getLogin.fill(login);
+        await this.getLoginInput.fill(login);
     }
 
     async inputPassword(password: string) {
-        await this.getPassword.fill(password);
+        await this.getPasswordInput.fill(password);
     }
 
     async clickLoginBtn() {
         await this.getLoginBtn.click();
     }
 
-    async login(login: string, password: string) {
+    async getErrorMessage() {
+        return await this.getErrorMsg.allInnerTexts();
+    }
+
+    async closeErrorMessage() {
+        await this.getErrorClose.click();
+    }
+
+    async loginAs(login: string, password: string) {
         await this.inputLogin(login);
         await this.inputPassword(password);
         await this.clickLoginBtn();

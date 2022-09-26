@@ -1,5 +1,5 @@
 
 
-npx playwright test tests/sauce.spec.ts
+npx playwright test tests/inventory.spec.ts
 
 
