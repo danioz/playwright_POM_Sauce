@@ -1,4 +1,4 @@
-import { expect, Locator, Page } from "@playwright/test";
+import { Expect, expect, Locator, Page } from "@playwright/test";
 import { BasePage } from "./basePage";
 import { InventoryPage } from "./inventoryPage";
 
@@ -40,9 +40,10 @@ export class LoginPage extends BasePage {
     return this;
   }
 
-  async getErrorMessage(expectedText: string) {
+  async getErrorMessage(expectedText: string): Promise<LoginPage> {
     await this.getLoginInput.waitFor({ state: "visible" });
     await expect(this.getErrorMsg).toContainText(expectedText);
+    return this;
   }
 
   async closeErrorMessage(): Promise<void> {
