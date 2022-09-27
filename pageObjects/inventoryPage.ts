@@ -27,7 +27,7 @@ export class InventoryPage extends LoginPage {
         return await expect(this.getCartIcon).toHaveText(numberOfItems.toString())
     }
 
-    async isExpectedTitle(expectedTitle: string) {
+    async shouldBeTitle(expectedTitle: string) {
         return await expect(this.getTitle).toHaveText(expectedTitle);
     }
 }

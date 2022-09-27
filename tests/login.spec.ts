@@ -9,19 +9,7 @@ test.beforeEach(async ({ page}) => {
     await loginPage.goTo();
 })
 
-test('xxx', async ({page}) => {
-    // Arrange
-    const loginPage = new LoginPage(page);
-    // Act
-    await (await (await loginPage
-        .inputLogin(""))
-        .inputPassword(""))
-        .clickLoginBtn();
-    //Assert
-    await expect(loginPage.getErrorMessage()).toContain("Test");
-});
-
-test('xxx', async ({page}) => {
+test('Login with valid credentials', async ({page}) => {
     // Arrange
     const loginPage = new LoginPage(page);
     // Act
@@ -31,7 +19,18 @@ test('xxx', async ({page}) => {
         .clickLoginBtn();
     //Assert
     const inventoryPage = new InventoryPage(page);
-    await inventoryPage.isExpectedTitle("Products");
+    await inventoryPage.shouldBeTitle("Products");
+});
+
+test('Login with invalid credentials', async ({page}) => {
+    // Arrange
+    const loginPage = new LoginPage(page);
+    // Act
+    await (await (await loginPage
+        .inputLogin("standard_user"))
+        .inputPassword("secret_sauce"))
+        .clickLoginBtn();
+    //Assert
 });
 
 
