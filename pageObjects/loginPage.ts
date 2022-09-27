@@ -19,8 +19,9 @@ export class LoginPage extends BasePage{
         this.getErrorClose = page.locator("button.error-button");
     }
 
-    async goTo(): Promise<void> {
+    async goTo(): Promise<LoginPage> {
         await super.navigate(this.url);
+        return this;
     }
 
     async inputLogin(login: string): Promise<LoginPage> {
