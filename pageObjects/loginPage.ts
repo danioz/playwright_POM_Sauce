@@ -46,15 +46,16 @@ export class LoginPage extends BasePage {
     return this;
   }
 
-  async closeErrorMessage(): Promise<void> {
+  async closeErrorMessage(): Promise<LoginPage> {
     await this.getLoginInput.waitFor({ state: "visible" });
     await this.getErrorClose.click();
+    return this;
   }
 
-  async loginAs(login: string, password: string): Promise<InventoryPage> {
+  async loginAs(login: string, password: string) {
+    await this.goTo();
     await this.inputLogin(login);
     await this.inputPassword(password);
     await this.clickLoginBtn();
-    return new InventoryPage(super.page);
   }
 }

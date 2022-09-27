@@ -6,11 +6,7 @@ test.describe.configure({ mode: "parallel" });
 
 test.beforeEach(async ({ page }) => {
   const loginPage = new LoginPage(page);
-  await (
-    await (
-      await (await loginPage.goTo()).inputLogin("standard_user")
-    ).inputPassword("secret_sauce")
-  ).clickLoginBtn();
+  await loginPage.loginAs("standard_user", "secret_sauce");
 });
 
 test("shouldBePresentOneItemInTheCartAfterAddedItem", async ({ page }) => {
