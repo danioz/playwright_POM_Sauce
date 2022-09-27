@@ -1,15 +1,17 @@
 import {Locator, Page} from '@playwright/test'
+import { BasePage } from './basePage';
+import { InventoryPage } from './inventoryPage';
 
-export class LoginPage {
-    readonly page: Page;
+export class LoginPage extends BasePage{
     readonly getLoginInput: Locator;
     readonly getPasswordInput: Locator;
     readonly getLoginBtn: Locator;
     readonly getErrorMsg: Locator;
     readonly getErrorClose: Locator;
+    readonly url = "https://www.saucedemo.com/";
 
     constructor(page: Page) {
-        this.page = page;
+        super(page);
         this.getLoginInput = page.locator("#user-name");
         this.getPasswordInput = page.locator("#password");
         this.getLoginBtn = page.locator("#login-button");
@@ -17,33 +19,40 @@ export class LoginPage {
         this.getErrorClose = page.locator("button.error-button");
     }
 
-    async goTo() {
-        await this.page.goto('https://www.saucedemo.com/');
+    async goTo(): Promise<void> {
+        await super.navigate(this.url);
     }
 
-    async inputLogin(login: string) {
+    async inputLogin(login: string): Promise<LoginPage> {
+        await this.getLoginInput.waitFor({state:"visible"})
         await this.getLoginInput.fill(login);
+        return this;
     }
 
-    async inputPassword(password: string) {
+    async inputPassword(password: string): Promise<LoginPage> {
         await this.getPasswordInput.fill(password);
+        return this;
     }
 
-    async clickLoginBtn() {
+    async clickLoginBtn(): Promise<LoginPage> {
         await this.getLoginBtn.click();
+        return this;
     }
 
     async getErrorMessage() {
-        return await this.getErrorMsg.allInnerTexts();
+        await this.getLoginInput.waitFor({state:"visible"})
+        return await this.getErrorMsg.textContent();
     }
 
-    async closeErrorMessage() {
+    async closeErrorMessage(): Promise<void> {
+        await this.getLoginInput.waitFor({state:"visible"})
         await this.getErrorClose.click();
     }
 
-    async loginAs(login: string, password: string) {
+    async loginAs(login: string, password: string): Promise<InventoryPage> {
         await this.inputLogin(login);
         await this.inputPassword(password);
         await this.clickLoginBtn();
+        return new InventoryPage(super.page);
     }
 }
